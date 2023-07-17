@@ -9,6 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@sentry/react-native": "^5.7.1",
     "@types/react": "^18.2.14",
     "expo": "^49.0.0",
     "expo-dev-client": "^2.4.6",

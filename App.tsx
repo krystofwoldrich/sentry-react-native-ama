@@ -2,9 +2,15 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View, Image, Button } from 'react-native';
 import TurboCrashModule from './js/NativeTurboCrashModule';
+import * as Sentry from '@sentry/react-native';
 
 const BANNER_URL = 'https://33fa1ur95-qdasx2mqb.sentry.dev/static/8887640552ba90952651464f9df61ce5/88556/welcome-page-performance.webp';
 const DATA_URL = 'https://api.artic.edu/api/v1/artworks/129884';
+
+
+Sentry.init({
+  dsn: 'https://e71d589b3b0c48528c1b70ae48308733@o1357066.ingest.sentry.io/4505543765590016', 
+});
 
 export default function App() {
   const [data, setData] = React.useState(null);
