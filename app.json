@@ -1,10 +1,4 @@
 {
-  "expo": {
-    "name": "sentry-react-native-ama",
-    "slug": "sentry-react-native-ama",
-    "version": "1.0.0",
-    "assetBundlePatterns": [
-      "**/*"
-    ]
-  }
+  "name": "sentryReactNativeAmaNightly",
+  "displayName": "sentryReactNativeAmaNightly"
 }
