@@ -8,48 +8,66 @@ import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
+import com.facebook.react.TurboReactPackage;
+import com.facebook.react.bridge.NativeModule;
+import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactNativeHost;
+import com.facebook.react.module.model.ReactModuleInfo;
+import com.facebook.react.module.model.ReactModuleInfoProvider;
 import com.facebook.soloader.SoLoader;
+import com.sentryreactnativeama.modules.TurboCrashModule;
+import com.sentryreactnativeama.modules.TurboCrashPackage;
+
+import org.jetbrains.annotations.Nullable;
 
 import expo.modules.ApplicationLifecycleDispatcher;
 import expo.modules.ReactNativeHostWrapper;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainApplication extends Application implements ReactApplication {
 
-  private final ReactNativeHost mReactNativeHost =
-    new ReactNativeHostWrapper(this, new DefaultReactNativeHost(this) {
-      @Override
-      public boolean getUseDeveloperSupport() {
-        return BuildConfig.DEBUG;
-      }
+    private final ReactNativeHost mReactNativeHost;
 
-      @Override
-      protected List<ReactPackage> getPackages() {
-        @SuppressWarnings("UnnecessaryLocalVariable")
-        List<ReactPackage> packages = new PackageList(this).getPackages();
-        // Packages that cannot be autolinked yet can be added manually here, for example:
-        // packages.add(new MyReactNativePackage());
-        return packages;
-      }
+    public MainApplication() {
+        super();
+        final ReactNativeHostWrapper t = new ReactNativeHostWrapper(this, new DefaultReactNativeHost(this) {
+            @Override
+            public boolean getUseDeveloperSupport() {
+                return BuildConfig.DEBUG;
+            }
 
-      @Override
-      protected String getJSMainModuleName() {
-        return "index";
-      }
+            @Override
+            protected List<ReactPackage> getPackages() {
+                @SuppressWarnings("UnnecessaryLocalVariable")
+                List<ReactPackage> packages = new PackageList(this).getPackages();
+                // Packages that cannot be autolinked yet can be added manually here, for example:
+                // packages.add(new MyReactNativePackage());
+                packages.add(new TurboCrashPackage());
+                return packages;
+            }
 
-      @Override
-      protected boolean isNewArchEnabled() {
-        return BuildConfig.IS_NEW_ARCHITECTURE_ENABLED;
-      }
+            @Override
+            protected String getJSMainModuleName() {
+                return "index";
+            }
 
-      @Override
-      protected Boolean isHermesEnabled() {
-        return BuildConfig.IS_HERMES_ENABLED;
-      }
-  });
+            @Override
+            protected boolean isNewArchEnabled() {
+                return BuildConfig.IS_NEW_ARCHITECTURE_ENABLED;
+            }
+
+            @Override
+            protected Boolean isHermesEnabled() {
+                return BuildConfig.IS_HERMES_ENABLED;
+            }
+        });
+        mReactNativeHost = t;
+
+    }
 
   @Override
   public ReactNativeHost getReactNativeHost() {

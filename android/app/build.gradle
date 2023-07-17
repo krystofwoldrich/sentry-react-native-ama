@@ -1,5 +1,10 @@
+plugins {
+    id 'org.jetbrains.kotlin.android' version '1.8.21'
+}
+
 apply plugin: "com.android.application"
 apply plugin: "com.facebook.react"
+apply plugin: 'org.jetbrains.kotlin.android'
 
 import com.android.build.OutputFile
 
@@ -120,6 +125,12 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+    }
+
+    externalNativeBuild {
+        cmake {
+            path "src/main/jni/CMakeLists.txt"
+        }
     }
 
     splits {
