@@ -1,118 +1,68 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import { StyleSheet, Text, View, Image, Button } from 'react-native';
+import TurboCrashModule from './js/NativeTurboCrashModule';
+import * as Sentry from '@sentry/react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+const BANNER_URL = 'https://33fa1ur95-qdasx2mqb.sentry.dev/static/8887640552ba90952651464f9df61ce5/88556/welcome-page-performance.webp';
+const DATA_URL = 'https://api.artic.edu/api/v1/artworks/129884';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
 
-function Section({children, title}: SectionProps): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+Sentry.init({
+  dsn: 'https://e71d589b3b0c48528c1b70ae48308733@o1357066.ingest.sentry.io/4505543765590016',
+});
+
+export default function App() {
+  const [data, setData] = React.useState(null);
+  const loadData = () => {
+    fetch(DATA_URL)
+    .then((response) => response.json())
+    .then((json) => setData(json.data.thumbnail.alt_text));
+  };
+
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
+    <View style={styles.container}>
+      <Image
+          style={styles.banner}
+          source={{
+          uri: BANNER_URL,
+        }}
+      />
+      <Text style={styles.data}>{data}</Text>
+      <View style={styles.btn}>
+          <Button
+            title='Load data'
+            onPress={loadData}
+          />
+      </View>
+      <View style={styles.btn}>
+          <Button
+            title='Crash on native'
+            onPress={() => {
+              TurboCrashModule!.getDataCrash();
+            }}
+          />
+      </View>
     </View>
   );
 }
 
-function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
-
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
+  banner: {
+    width: '100%',
+    height: 200,
+    marginBottom: 20,
+ },
+ data: {
+  height: 100,
+  margin: 20,
+ },
+ btn: {
+  marginBottom: 20,
+ }
 });
-
-export default App;
