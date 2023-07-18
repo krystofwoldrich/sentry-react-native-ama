@@ -9,6 +9,9 @@ const DATA_URL = 'https://api.artic.edu/api/v1/artworks/129884';
 
 Sentry.init({
   dsn: 'https://e71d589b3b0c48528c1b70ae48308733@o1357066.ingest.sentry.io/4505543765590016',
+  attachScreenshot: true,
+  attachViewHierarchy: true,
+  sendDefaultPii: true,
 });
 
 export default function App() {
@@ -38,7 +41,11 @@ export default function App() {
           <Button
             title='Crash on native'
             onPress={() => {
-              TurboCrashModule!.getDataCrash();
+              try {
+                TurboCrashModule!.getDataCrash();
+              } catch (e) {
+                Sentry.captureException(e);
+              }
             }}
           />
       </View>
