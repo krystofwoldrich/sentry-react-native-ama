@@ -7,6 +7,11 @@ class TurboCrashModule(reactContext: ReactApplicationContext) : NativeTurboCrash
 
     override fun getName() = NAME
     override fun getDataCrash(): String {
+        crash()
+        return "data"
+    }
+
+    fun crash() {
         throw RuntimeException("The operation failed.")
     }
 
