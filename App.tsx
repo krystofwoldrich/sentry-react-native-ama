@@ -41,11 +41,7 @@ export default function App() {
           <Button
             title='Crash on native'
             onPress={() => {
-              try {
                 TurboCrashModule!.getDataCrash();
-              } catch (e) {
-                Sentry.captureException(e);
-              }
             }}
           />
       </View>
