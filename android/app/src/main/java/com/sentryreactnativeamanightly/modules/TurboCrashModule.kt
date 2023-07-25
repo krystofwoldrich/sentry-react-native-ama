@@ -2,11 +2,12 @@ package com.sentryreactnativeamanightly.modules;
 
 import com.facebook.fbreact.specs.NativeTurboCrashModuleSpec
 import com.facebook.react.bridge.ReactApplicationContext
+import com.facebook.react.bridge.ReadableMap;
 
 class TurboCrashModule(reactContext: ReactApplicationContext) : NativeTurboCrashModuleSpec(reactContext) {
 
     override fun getName() = NAME
-    override fun getDataCrash(): String {
+    override fun getDataCrash(query: ReadableMap?): String {
         crash()
         return "data"
     }
